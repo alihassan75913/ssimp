@@ -95,7 +95,7 @@ public String showTicketDetails(
         title = title.trim();
         description = description.trim();
 
-        
+     
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("categoryId", categoryId);
@@ -130,7 +130,7 @@ public String showTicketDetails(
             return prepareForm(model);
         }
 
-        // Use the account that is currently logged in.
+       
         User account = userRepository.findByEmail(principal.getName())
                 .filter(User::isActive)
                 .orElseThrow(() ->

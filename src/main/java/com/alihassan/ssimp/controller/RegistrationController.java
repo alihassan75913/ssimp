@@ -42,7 +42,7 @@ public class RegistrationController {
         fullName = fullName.trim();
         email = email.trim().toLowerCase(Locale.ROOT);
 
-        
+        // Keep these fields filled in if there is an error.
         model.addAttribute("fullName", fullName);
         model.addAttribute("email", email);
 

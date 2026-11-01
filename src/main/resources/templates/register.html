@@ -4,60 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create an account | SSIMP</title>
-    <link rel="stylesheet" href="/css/ssimp.css" th:href="@{/css/ssimp.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 24px;
+        }
+
+        main {
+            max-width: 420px;
+            margin: 24px auto;
+            padding: 24px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin-top: 16px;
+        }
+
+        input, button {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+        }
+
+        button {
+            margin-top: 20px;
+            background: #1769d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        a { color: #1769d2; }
+        .error { color: #b42318; }
+        .success { color: #166534; }
+    </style>
 </head>
 <body>
-<a class="skip-link" href="#main-content">Skip to content</a>
-<header class="site-header">
-    <div class="shell header-inner">
-        <a href="/" th:href="@{/}" class="brand"><span class="brand-name">SSIMP</span><span class="brand-caption">Service support</span></a>
-        <nav class="main-nav" aria-label="Main navigation"><a href="/register" th:href="@{/register}" aria-current="page">Create account</a></nav>
-        <div class="header-actions"><a href="/login" th:href="@{/login}" class="button button-quiet">Sign in</a></div>
-    </div>
-</header>
-<main id="main-content" class="shell page">
-    <div class="auth-layout">
-        <section class="auth-intro">
-            <p class="eyebrow">Welcome to SSIMP</p>
-            <h1>A place to ask for help and follow up.</h1>
-            <p>Create an account to submit a support ticket and check its status.</p>
-            <ul class="feature-list">
-                <li><span class="feature-dot" aria-hidden="true">1</span>Describe the problem</li>
-                <li><span class="feature-dot" aria-hidden="true">2</span>Try the suggested steps</li>
-                <li><span class="feature-dot" aria-hidden="true">3</span>Keep track of your tickets</li>
-            </ul>
-        </section>
-        <section class="panel panel-padded auth-card" aria-labelledby="register-heading">
-            <h2 id="register-heading">Create an account</h2>
-            <p class="required-note">All fields are required.</p>
-            <p class="alert success" th:if="${param.success != null}" role="status">
+    <main>
+        <h1>SSIMP</h1>
+        <h2>Create an account</h2>
+
+        <p class="success"
+           th:if="${param.success != null}"
+           role="status">
             Your account has been created. You can sign in below.
         </p>
-<p class="alert error" th:if="${error != null}" th:text="${error}" role="alert"></p>
-            <form th:action="@{/register}" method="post">
-                <div class="field">
-                    <label for="fullName">Full name</label>
-                    <input type="text" id="fullName" name="fullName" th:value="${fullName}" maxlength="100" autocomplete="name" required placeholder="Your full name">
-                </div>
-                <div class="field">
-                    <label for="email">Email address</label>
-                    <input type="email" id="email" name="email" th:value="${email}" maxlength="255" autocomplete="email" required placeholder="you@example.com">
-                </div>
-                <div class="field">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" minlength="8" maxlength="72" autocomplete="new-password" aria-describedby="password-help" required>
-                    <p class="field-help" id="password-help">Use at least 8 characters.</p>
-                </div>
-                <button class="button button-wide" type="submit">Create account</button>
-            </form>
-            <p class="auth-switch">Already have an account? <a th:href="@{/login}">Sign in</a></p>
-        </section>
-    </div>
-</main>
-<footer class="shell site-footer">
-    <span>SSIMP</span>
-    <span>Smart Service Support and Issue Management Platform</span>
-</footer>
 
+        <p class="error"
+           th:if="${error != null}"
+           th:text="${error}"
+           role="alert"></p>
+
+        <form th:action="@{/register}" method="post">
+            <label for="fullName">Full name</label>
+            <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                th:value="${fullName}"
+                maxlength="100"
+                autocomplete="name"
+                required>
+
+            <label for="email">Email address</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                th:value="${email}"
+                maxlength="255"
+                autocomplete="email"
+                required>
+
+            <label for="password">Password</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                minlength="8"
+                maxlength="72"
+                autocomplete="new-password"
+                aria-describedby="password-help"
+                required>
+
+            <p id="password-help">Use at least 8 characters.</p>
+
+            <button type="submit">Create account</button>
+        </form>
+
+        <p>
+            Already have an account?
+            <a th:href="@{/login}">Sign in</a>
+        </p>
+    </main>
 </body>
 </html>

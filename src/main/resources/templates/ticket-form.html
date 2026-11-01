@@ -4,78 +4,157 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit a ticket | SSIMP</title>
-    <link rel="stylesheet" href="/css/ssimp.css" th:href="@{/css/ssimp.css}">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            color: #222;
+            padding: 20px;
+        }
+
+        main {
+            max-width: 650px;
+            margin: 20px auto;
+            padding: 24px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin: 18px 0 6px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            font: inherit;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 18px;
+            background: #1769d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        a {
+            color: #1769d2;
+        }
+
+        .error {
+            color: #b42318;
+        }
+
+        .success {
+            color: #166534;
+        }
+        .suggestions {
+    margin-top: 16px;
+    padding: 16px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 4px;
+}
+
+.suggestions h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.suggestions li {
+    margin-bottom: 8px;
+}
+
+.suggestions p {
+    margin-bottom: 0;
+}
+    </style>
 </head>
 <body>
-<a class="skip-link" href="#main-content">Skip to content</a>
-<header class="site-header">
-    <div class="shell header-inner">
-        <a href="/" th:href="@{/}" class="brand"><span class="brand-name">SSIMP</span><span class="brand-caption">Service support</span></a>
-        <nav class="main-nav" aria-label="Main navigation"><a href="/" th:href="@{/}">Home</a><a href="/user/tickets" th:href="@{/user/tickets}">My tickets</a><a href="/user/tickets/new" th:href="@{/user/tickets/new}" aria-current="page">Submit a ticket</a></nav>
-        <div class="header-actions"><a href="/logout" th:href="@{/logout}" class="button button-quiet">Log out</a></div>
-    </div>
-</header>
-<main id="main-content" class="shell page">
-    <div class="page-heading">
-        <p class="eyebrow">New request</p>
+    <main>
+        <a th:href="@{/}">Home</a>
+
         <h1>Submit a ticket</h1>
-        <p>Tell us what went wrong and what you have already tried.</p>
-    </div>
-    <p th:if="${success != null}" th:text="${success}" class="alert success" role="status"></p>
-<p th:if="${error != null}" th:text="${error}" class="alert error" role="alert"></p>
-    <div class="request-layout">
-        <form class="panel panel-padded" th:action="@{/user/tickets}" method="post">
-            <p class="required-note">All fields are required.</p>
-            <div class="field">
-                <label for="title">Title</label>
-                <input type="text" id="title" name="title" th:value="${title}" maxlength="150" required placeholder="Briefly describe the issue">
-            </div>
-            <div class="field-row">
-                <div class="field">
-                    <label for="categoryId">Category</label>
-                    <select id="categoryId" name="categoryId" required>
+        <p>Describe the problem you need help with.</p>
+
+        <p th:if="${success != null}"
+           th:text="${success}"
+           class="success"
+           role="status"></p>
+
+        <p th:if="${error != null}"
+           th:text="${error}"
+           class="error"
+           role="alert"></p>
+
+        <form th:action="@{/user/tickets}" method="post">
+            <label for="title">Title</label>
+            <input type="text"
+                   id="title"
+                   name="title"
+                   th:value="${title}"
+                   maxlength="150"
+                   required>
+
+            <label for="categoryId">Category</label>
+            <select id="categoryId" name="categoryId" required>
                 <option value="">Choose a category</option>
-                <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.name}" th:selected="${categoryId == category.categoryId}">
+                <option th:each="category : ${categories}"
+                        th:value="${category.categoryId}"
+                        th:text="${category.name}"
+                        th:selected="${categoryId == category.categoryId}">
                 </option>
             </select>
-                </div>
-                <div class="field">
-                    <label for="priority">Priority</label>
-                    <select id="priority" name="priority" required>
-                <option value="LOW" th:selected="${priority == 'LOW'}">Low</option>
-                <option value="NORMAL" th:selected="${priority == 'NORMAL'}">Normal</option>
-                <option value="HIGH" th:selected="${priority == 'HIGH'}">High</option>
-            </select>
-                </div>
-            </div>
-            <div class="field">
-                <label for="description">Description</label>
-                <textarea id="description" name="description" rows="6" maxlength="5000" th:text="${description}" required placeholder="Describe the problem and anything you have tried so far."></textarea>
-            </div>
-            <div class="form-actions">
-                <button class="button" type="submit">Submit ticket</button>
-                <a class="button button-secondary" th:href="@{/user/tickets}">Cancel</a>
-            </div>
-        </form>
-        <aside class="help-panel" aria-labelledby="suggestions-heading">
-            <p class="eyebrow">Quick checks</p>
-            <h2 id="suggestions-heading">Try these steps</h2>
-            <div id="suggestions-box" hidden>
-                <ol id="suggestion-list">
-        <li th:each="suggestion : ${suggestions}" th:attr="data-category-id=${suggestion.category.categoryId}" th:text="${suggestion.instruction}" hidden>
+<div id="suggestions-box" class="suggestions" hidden>
+    <h2>Try these steps</h2>
+
+    <ol id="suggestion-list">
+        <li th:each="suggestion : ${suggestions}"
+            th:attr="data-category-id=${suggestion.category.categoryId}"
+            th:text="${suggestion.instruction}"
+            hidden>
         </li>
     </ol>
-                <p class="help-footer">If the problem continues, submit your ticket.</p>
-            </div>
-            <p class="suggestions-empty">Choose a category to see the suggested steps.</p>
-        </aside>
-    </div>
-</main>
-<footer class="shell site-footer">
-    <span>SSIMP</span>
-    <span>Smart Service Support and Issue Management Platform</span>
-</footer>
-<script>
+
+    <p>If the problem continues, submit your ticket below.</p>
+</div>
+            <label for="priority">Priority</label>
+            <select id="priority" name="priority" required>
+                <option value="LOW"
+                        th:selected="${priority == 'LOW'}">Low</option>
+                <option value="NORMAL"
+                        th:selected="${priority == 'NORMAL'}">Normal</option>
+                <option value="HIGH"
+                        th:selected="${priority == 'HIGH'}">High</option>
+            </select>
+
+            <label for="description">Description</label>
+            <textarea id="description"
+                      name="description"
+                      rows="6"
+                      maxlength="5000"
+                      th:text="${description}"
+                      required></textarea>
+
+            <button type="submit">Submit ticket</button>
+        </form>
+    </main>
+    <script>
     const categorySelect = document.getElementById("categoryId");
     const suggestionsBox = document.getElementById("suggestions-box");
     const suggestionItems = document.querySelectorAll("#suggestion-list li");

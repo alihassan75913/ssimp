@@ -4,65 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ticket details | SSIMP</title>
-    <link rel="stylesheet" href="/css/ssimp.css" th:href="@{/css/ssimp.css}">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            color: #222;
+            padding: 20px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 24px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        a {
+            color: #1769d2;
+        }
+
+        h1 {
+            overflow-wrap: anywhere;
+        }
+
+        dt {
+            font-weight: bold;
+            margin-top: 16px;
+        }
+
+        dd {
+            margin: 4px 0 0;
+        }
+
+        .description {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            padding: 16px;
+            background: #f3f4f6;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-<a class="skip-link" href="#main-content">Skip to content</a>
-<header class="site-header">
-    <div class="shell header-inner">
-        <a href="/" th:href="@{/}" class="brand"><span class="brand-name">SSIMP</span><span class="brand-caption">Service support</span></a>
-        <nav class="main-nav" aria-label="Main navigation"><a href="/" th:href="@{/}">Home</a><a href="/user/tickets" th:href="@{/user/tickets}" aria-current="page">My tickets</a><a href="/user/tickets/new" th:href="@{/user/tickets/new}">Submit a ticket</a></nav>
-        <div class="header-actions"><a href="/logout" th:href="@{/logout}" class="button button-quiet">Log out</a></div>
-    </div>
-</header>
-<main id="main-content" class="shell page">
-    <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <a th:href="@{/user/tickets}">My tickets</a>
-        <span aria-hidden="true">/</span>
-        <span aria-current="page">Ticket #<span th:text="${ticket.ticketId}"></span></span>
-    </nav>
-    <div class="page-heading">
-        <p class="eyebrow">Ticket details</p>
-        <h1 th:text="${ticket.title}"></h1>
-    </div>
-    <div class="details-layout">
-        <section class="panel panel-padded description-panel">
-            <h2>Description</h2>
-            <p class="description" th:text="${ticket.description}"></p>
-        </section>
-        <aside class="panel panel-padded" aria-labelledby="summary-heading">
-            <h2 id="summary-heading">Ticket summary</h2>
-            <dl class="meta-list">
-                <div class="meta-item">
-                    <dt>Category</dt>
-                    <dd th:text="${ticket.category.name}"></dd>
-                </div>
-                <div class="meta-item">
-                    <dt>Priority</dt>
-                    <dd><span class="badge" th:classappend="${'priority-' + ticket.priority}"
-                              th:text="${ticket.priority}"></span></dd>
-                </div>
-                <div class="meta-item">
-                    <dt>Status</dt>
-                    <dd><span class="badge" th:classappend="${'status-' + ticket.status}"
-                              th:text="${#strings.replace(ticket.status, '_', ' ')}"></span></dd>
-                </div>
-                <div class="meta-item">
-                    <dt>Submitted</dt>
-                    <dd th:text="${#temporals.format(ticket.createdAt, 'yyyy-MM-dd HH:mm')}"></dd>
-                </div>
-                <div class="meta-item">
-                    <dt>Last updated</dt>
-                    <dd th:text="${#temporals.format(ticket.updatedAt, 'yyyy-MM-dd HH:mm')}"></dd>
-                </div>
-            </dl>
-        </aside>
-    </div>
-</main>
-<footer class="shell site-footer">
-    <span>SSIMP</span>
-    <span>Smart Service Support and Issue Management Platform</span>
-</footer>
+    <main>
+        <nav>
+            <a th:href="@{/user/tickets}">My tickets</a>
+            <a th:href="@{/user/tickets/new}">Submit a ticket</a>
+        </nav>
 
+        <p>Ticket number: <span th:text="${ticket.ticketId}"></span></p>
+        <h1 th:text="${ticket.title}"></h1>
+
+        <dl>
+            <dt>Category</dt>
+            <dd th:text="${ticket.category.name}"></dd>
+
+            <dt>Priority</dt>
+            <dd th:text="${ticket.priority}"></dd>
+
+            <dt>Status</dt>
+            <dd th:text="${#strings.replace(ticket.status, '_', ' ')}"></dd>
+
+            <dt>Submitted</dt>
+            <dd th:text="${#temporals.format(ticket.createdAt, 'yyyy-MM-dd HH:mm')}"></dd>
+
+            <dt>Last updated</dt>
+            <dd th:text="${#temporals.format(ticket.updatedAt, 'yyyy-MM-dd HH:mm')}"></dd>
+        </dl>
+
+        <h2>Description</h2>
+        <p class="description" th:text="${ticket.description}"></p>
+    </main>
 </body>
 </html>
