@@ -33,9 +33,12 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .defaultSuccessUrl("/", true)
-                .permitAll()
-            )
+    .loginPage("/login")
+    .loginProcessingUrl("/login")
+    .defaultSuccessUrl("/", true)
+    .failureUrl("/login?error")
+    .permitAll()
+)
           .logout(logout -> logout.permitAll());
 
         return http.build();

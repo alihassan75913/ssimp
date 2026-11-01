@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My tickets | SSIMP</title>
+    <link rel="stylesheet" href="/css/ssimp.css" th:href="@{/css/ssimp.css}">
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+    <div class="shell header-inner">
+        <a href="/" th:href="@{/}" class="brand"><span class="brand-name">SSIMP</span><span class="brand-caption">Service support</span></a>
+        <nav class="main-nav" aria-label="Main navigation"><a href="/" th:href="@{/}">Home</a><a href="/user/tickets" th:href="@{/user/tickets}" aria-current="page">My tickets</a><a href="/user/tickets/new" th:href="@{/user/tickets/new}">Submit a ticket</a></nav>
+        <div class="header-actions"><a href="/logout" th:href="@{/logout}" class="button button-quiet">Log out</a></div>
+    </div>
+</header>
+<main id="main-content" class="shell page">
+    <div class="page-heading heading-row">
+        <div>
+            <p class="eyebrow">Your requests</p>
+            <h1>My tickets</h1>
+            <p>Check the status of your requests. Select a title to see the details.</p>
+        </div>
+        <a class="button" th:href="@{/user/tickets/new}">Submit a ticket <span aria-hidden="true">+</span></a>
+    </div>
+    <section class="panel empty-state" th:if="${#lists.isEmpty(tickets)}">
+        <div class="empty-mark" aria-hidden="true">+</div>
+        <h2>No tickets yet</h2>
+        <p>You have not submitted any tickets yet.</p>
+        <a class="button" th:href="@{/user/tickets/new}">Submit your first ticket</a>
+    </section>
+    <div class="panel table-container" th:unless="${#lists.isEmpty(tickets)}"
+         tabindex="0" role="region" aria-label="Your tickets">
+        <table>
+            <caption class="sr-only">Your submitted support tickets</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Ticket number</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Priority</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Submitted</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="ticket : ${tickets}">
+                    <td class="ticket-number">#<span th:text="${ticket.ticketId}"></span></td>
+                    <td class="ticket-title">
+                        <a th:href="@{/user/tickets/{ticketId}(ticketId=${ticket.ticketId})}"
+                           th:text="${ticket.title}"></a>
+                    </td>
+                    <td th:text="${ticket.category.name}"></td>
+                    <td><span class="badge" th:classappend="${'priority-' + ticket.priority}"
+                              th:text="${ticket.priority}"></span></td>
+                    <td><span class="badge" th:classappend="${'status-' + ticket.status}"
+                              th:text="${#strings.replace(ticket.status, '_', ' ')}"></span></td>
+                    <td class="date-cell"
+                        th:text="${#temporals.format(ticket.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer class="shell site-footer">
+    <span>SSIMP</span>
+    <span>Smart Service Support and Issue Management Platform</span>
+</footer>
+
+</body>
+</html>

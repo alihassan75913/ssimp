@@ -39,7 +39,7 @@ public class User {
     @Column(nullable = false)
     private boolean active = true;
 
-    // MySQL supplies the creation time.
+    
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 

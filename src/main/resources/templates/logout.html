@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log out | SSIMP</title>
+    <link rel="stylesheet" href="/css/ssimp.css" th:href="@{/css/ssimp.css}">
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+    <div class="shell header-inner">
+        <a href="/" th:href="@{/}" class="brand">
+            <span class="brand-name">SSIMP</span>
+            <span class="brand-caption">Service support</span>
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="/" th:href="@{/}">Home</a>
+        </nav>
+    </div>
+</header>
+<main id="main-content" class="shell page">
+    <div class="auth-layout">
+        <section class="auth-intro">
+            <p class="eyebrow">Your account</p>
+            <h1>Ready to leave?</h1>
+            <p>You can sign back in when you need to.</p>
+        </section>
+        <section class="panel panel-padded auth-card" aria-labelledby="logout-heading">
+            <h2 id="logout-heading">Log out of SSIMP?</h2>
+            <p>Select Log out to end your session, or Cancel to return to the home page.</p>
+            <form th:action="@{/logout}" method="post">
+                <div class="form-actions">
+                    <button class="button" type="submit">Log out</button>
+                    <a href="/" th:href="@{/}" class="button button-secondary">Cancel</a>
+                </div>
+            </form>
+        </section>
+    </div>
+</main>
+<footer class="shell site-footer">
+    <span>SSIMP</span>
+    <span>Smart Service Support and Issue Management Platform</span>
+</footer>
+</body>
+</html>
